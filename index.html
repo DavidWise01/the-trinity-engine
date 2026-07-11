@@ -1,5 +1,5 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>THE TRINITY ENGINE — the cross, modified on the fly</title>
+<title>THE TRINITY ENGINE — the cross, routed on the fly</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   :root{--void:#070010;--panel:#120a22;--panel2:#180d2e;--bone:#f5f0e6;--dim:#b79ae0;--faint:#6a5b8a;--line:#2a1a44;
@@ -26,6 +26,7 @@
   input#om::-webkit-slider-thumb{background:var(--phos2);box-shadow:0 0 12px var(--phos2)}
   .seg{display:flex;gap:4px;flex-wrap:wrap}.seg button{flex:1;min-width:52px;font-family:var(--mono);font-size:10px;background:#1a0f30;color:var(--dim);border:1px solid var(--line);border-radius:5px;padding:6px 4px;cursor:pointer}
   .seg button.on{background:var(--purple);color:#0c0018;font-weight:700;border-color:var(--pbright)}
+  #mode-sel button.on{background:var(--phos);color:#02180e;border-color:var(--phos2)}
   .met{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:8px;margin-top:6px}
   .m{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:8px 6px;text-align:center}
   .m .n{font-size:16px;font-weight:800;color:var(--ice)}.m .n.p{color:var(--phos2)}.m .n.g{color:var(--gold)}
@@ -42,39 +43,39 @@
 <body><div class="wrap">
   <div class="kick">prosoche · ROOT0's trinity cross · the engine you can turn</div>
   <h1>THE TRINITY <em>ENGINE</em></h1>
-  <p class="lede">Attention as <b>phase coherence</b>, not magnitude. Each score is mapped through the Cayley transform <code>z=(1+i&omega;d)/(1&minus;i&omega;d)&middot;e^(d/T)</code> onto the unit circle, then weighted by how much its phase aligns with the resultant <b>R=&Sigma;z</b> &mdash; decomposed into three cardinals: <b>forward</b> (in-phase) + two <b>shadows</b> (the anti-phase mass the kernel rejects). Drag <b>&omega;</b>: at <b>&omega;=0 the engine IS softmax</b> (verified to 1e&minus;16); turn it up and the trinity phase switches on. Every knob rewrites the engine live; drag the input bars to reshape what it reads.</p>
+  <p class="lede">Attention as <b>phase coherence</b>, not magnitude. Each score is mapped through the Cayley transform <code>z=(1+i&omega;d)/(1&minus;i&omega;d)&middot;e^(d/T)</code> onto the unit circle, then read against the resultant <b>R=&Sigma;z</b>. The engine has two folds: <b>1-fold</b> keeps only the in-phase tokens and <span style="color:var(--sh1)">discards the rest</span> (entropy collapses); <b>Trinity</b> gives the three cube-root cardinals &omega;&#8304;/&omega;&#185;/&omega;&#178; different jobs and <b>routes</b> each token to the one it aligns with, so the two shadows <b>recover</b> the anti-phase mass 1-fold threw away. Flip the fold and watch H crash, then come back. At <b>&omega;=0 both are exactly softmax</b> (verified to 1e&minus;16). Drag the input bars to reshape what it reads.</p>
   <div class="tiers">
-    <span class="tier g">GREEN &mdash; every kernel value is exact &amp; recomputed live; &omega;=0 recovers softmax (node-verified)</span>
-    <span class="tier a">AMBER &mdash; the three-phase "forward/shadow" reading is a chosen figure; the input is a toy score vector, not a trained model's Q&middot;K</span>
-    <span class="tier r">RED &mdash; trained native it ties softmax within ~1.2% (see trained-on-the-cross): competitive, not superior. whether the shadows carry usable signal is the open question</span>
+    <span class="tier g">GREEN &mdash; every kernel value is exact &amp; recomputed live; &omega;=0 recovers softmax (1e&minus;16); routing recovers the entropy the 1-fold discards (node-verified)</span>
+    <span class="tier a">AMBER &mdash; the forward/shadow cardinal names are a chosen figure; the input is a toy score vector, not a trained model's Q&middot;K</span>
+    <span class="tier r">RED &mdash; only the 1-fold was TRAINED (trained-on-the-cross: ties softmax within ~1.2%). the routed kernel is mechanism-verified here but its trained performance is UNTESTED &mdash; the open experiment</span>
   </div>
 
   <div class="grid">
     <div class="card"><h2>the engine &mdash; modify on the fly</h2>
       <div class="ctl"><div class="lab"><span>&omega; &middot; phase gain &nbsp;<span style="color:var(--faint)">(0 = softmax)</span></span><b id="omv">1.00</b></div><input type="range" id="om" min="0" max="6" step="0.02" value="1"></div>
+      <div class="ctl"><div class="lab"><span>kernel &middot; fold</span><b id="modev" style="color:var(--phos2)">Trinity &middot; routes</b></div><div class="seg" id="mode-sel"><button data-v="fold1">1-fold &middot; rejects</button><button data-v="trinity" class="on">Trinity &middot; routes 3</button></div></div>
       <div class="ctl"><div class="lab"><span>T &middot; temperature</span><b id="Tv">0.80</b></div><input type="range" id="T" min="0.2" max="3" step="0.02" value="0.8"></div>
       <div class="ctl"><div class="lab"><span>centre (the seed)</span></div><div class="seg" id="centre"><button data-v="median" class="on">median</button><button data-v="mean">mean</button><button data-v="zero">zero</button></div></div>
-      <div class="ctl"><div class="lab"><span>phases &middot; cardinal decomposition</span><b id="Pv">3 · trinity</b></div><input type="range" id="P" min="1" max="6" step="1" value="3"></div>
-      <div class="ctl"><div class="lab"><span>input pattern</span></div><div class="seg" id="pat"><button data-v="mule" class="on">one signal</button><button data-v="two">two blocs</button><button data-v="gas">gas</button><button data-v="ramp">ramp</button></div></div>
+      <div class="ctl"><div class="lab"><span>input pattern</span></div><div class="seg" id="pat"><button data-v="mule" class="on">one signal</button><button data-v="two">two blocs</button><button data-v="split">split &plusmn;</button><button data-v="gas">gas</button></div></div>
       <div class="ctl"><div class="lab"><span>tokens N</span><b id="Nv">12</b></div><input type="range" id="N" min="4" max="40" step="1" value="12"></div>
     </div>
     <div class="card"><h2>the attention &middot; weights per token (drag bars)</h2>
       <canvas id="bars" width="440" height="240"></canvas>
-      <div class="lo"><span style="color:var(--phos2)">&#9646; forward (&omega;&#8304;)</span> &nbsp; <span style="color:var(--sh1)">&#9646; shadow +</span> &nbsp; <span style="color:var(--sh2)">&#9646; shadow &minus;</span> &nbsp; <span style="color:var(--faint)">&#9647; softmax ghost</span> &middot; drag a bar to change that token's score.</div>
+      <div class="lo"><span style="color:var(--phos2)">&#9646; &omega;&#8304; forward</span> &nbsp; <span style="color:var(--sh1)">&#9646; &omega;&#185; shadow</span> &nbsp; <span style="color:var(--sh2)">&#9646; &omega;&#178; shadow</span> &nbsp; <span style="color:var(--faint)">&#9647; softmax ghost</span> &middot; drag a bar to change that token's score.</div>
     </div>
   </div>
 
   <div class="grid">
-    <div class="card"><h2>the complex plane &middot; z on the unit circle, resultant R</h2>
+    <div class="card"><h2>the complex plane &middot; z on the unit circle, three cardinals</h2>
       <canvas id="plane" width="440" height="300"></canvas>
-      <div class="lo">every token's phase lands on the unit circle (|z|=1); magnitude e^(d/T) scales its radius. <b style="color:var(--gold)">R</b> = the resultant (the crowd's direction). the wedges are the P phase-cardinals; a token's weight is its rectified projection onto R.</div>
+      <div class="lo">every token's phase lands on the unit circle (|z|=1); magnitude e^(d/T) scales its radius. In <b style="color:var(--phos2)">Trinity</b> the three gold spokes are the cardinal directions <b>R, R&middot;&omega;, R&middot;&omega;&#178;</b> at 120&deg;; each token routes to its nearest cardinal (its colour). In <b style="color:var(--sh1)">1-fold</b> only R survives and everything past 90&deg; is discarded.</div>
     </div>
     <div class="card"><h2>readout &middot; live</h2>
       <div class="met">
-        <div class="m"><div class="n p" id="k-H">—</div><div class="l">entropy H (nats)</div></div>
-        <div class="m"><div class="n" id="k-eff">—</div><div class="l">effective tokens e^H</div></div>
-        <div class="m"><div class="n g" id="k-d">—</div><div class="l">max &Delta; vs softmax</div></div>
-        <div class="m"><div class="n" id="k-sum">—</div><div class="l">&Sigma; w (validity)</div></div>
+        <div class="m"><div class="n p" id="k-H">&mdash;</div><div class="l">entropy H (nats)</div></div>
+        <div class="m"><div class="n" id="k-eff">&mdash;</div><div class="l">effective tokens e^H</div></div>
+        <div class="m"><div class="n g" id="k-d">&mdash;</div><div class="l">max &Delta; vs softmax</div></div>
+        <div class="m"><div class="n" id="k-sum">&mdash;</div><div class="l">&Sigma; w (validity)</div></div>
       </div>
       <div class="sect" id="sect"></div>
       <div class="lo" id="mode"></div>
@@ -84,39 +85,53 @@
   <div class="verdict" id="verdict"></div>
   <div id="err"></div>
   <div class="note">
-    <b>the engine, honestly.</b> the kernel is David Lee Wise / ROOT0's Trinity cross, reconstructed from AZ1 primitives (median seed &middot; &plusmn;i Cayley/M&ouml;bius leapfrog &middot; crossbar-WTA rectification). &omega;=0 collapses it to softmax exactly (node-verified 1e&minus;16), so this is a <b>generalization</b> of softmax with a phase axis, not a replacement. it trains to parity, not superiority (trained-on-the-cross: within ~1.2%, ~1.75&times; compute). the "forward/shadow" cardinal names are a figure over an exact decomposition; the input here is a toy score vector, not a trained model's real Q&middot;K &mdash; this is a mechanism explorer, the place to see what the phase actually does. offline, fails loud. ROOT0, with AVAN.
+    <b>the engine, honestly.</b> the kernel is David Lee Wise / ROOT0's Trinity cross, reconstructed from AZ1 primitives (median seed &middot; &plusmn;i Cayley/M&ouml;bius leapfrog &middot; crossbar-WTA). &omega;=0 collapses either fold to softmax exactly (1e&minus;16), so this is a <b>generalization</b> of softmax with a phase axis. the evolution shown here: the <b>1-fold</b> single-resultant kernel discards anti-phase tokens and collapses entropy; the <b>routed Trinity</b> gives the three cube-root cardinals distinct routing regions so the shadows recover that mass and H returns near softmax &mdash; verified live. &#9873; the catch found in building it: naively <i>summing</i> the three cube-roots is a no-op (rotating z and R by the same root leaves the Hermitian inner product unchanged &mdash; three identical copies); <b>routing</b>, not summing, is what makes the trinity real. only the 1-fold was trained (trained-on-the-cross, parity within ~1.2%); the routed kernel's trained performance is untested. a mechanism explorer, offline, fails loud. ROOT0, with AVAN.
   </div>
 </div>
 <script>
 "use strict";
 (function(){
 try{
-  var S={N:12,T:0.8,om:1,centre:"median",P:3,pat:"mule",scores:[]};
+  var S={N:12,T:0.8,om:1,centre:"median",mode:"trinity",pat:"mule",scores:[]};
   function rng(seed){return function(){seed=(seed+0x6D2B79F5)>>>0;var t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
-  function buildInput(){var r=rng(7),s=[],N=S.N;
-    if(S.pat==="mule"){s.push(4.0);for(var i=1;i<N;i++)s.push((r()-0.5)*3.2);}
-    else if(S.pat==="two"){for(var i=0;i<N;i++)s.push((r()-0.5)*2);s[0]=3.6;s[Math.floor(N/2)]=3.2;s[Math.floor(N/2)+1]=2.4;}
-    else if(S.pat==="gas"){for(var i=0;i<N;i++)s.push((r()-0.5)*2.4);}
-    else {for(var i=0;i<N;i++)s.push(-2+4*i/(N-1)+(r()-0.5)*0.5);}
+  function buildInput(){var r=rng(7),s=[],N=S.N,i;
+    if(S.pat==="mule"){s.push(4.0);for(i=1;i<N;i++)s.push((r()-0.5)*3.2);}
+    else if(S.pat==="two"){for(i=0;i<N;i++)s.push((r()-0.5)*2);s[0]=3.6;s[Math.floor(N/2)]=3.2;s[Math.floor(N/2)+1]=2.4;}
+    else if(S.pat==="split"){for(i=0;i<N;i++){var h=i<N/3?2.6+r()*0.6:(i<2*N/3?-2.6-r()*0.6:(r()-0.5)*0.6);s.push(h);}}
+    else {for(i=0;i<N;i++)s.push((r()-0.5)*2.4);}
     S.scores=s;}
-  function median(a){var s=[...a].sort(function(x,y){return x-y;}),n=s.length;return n%2?s[(n-1)/2]:(s[n/2-1]+s[n/2])/2;}
+  function median(a){var s=a.slice().sort(function(x,y){return x-y;}),n=s.length;return n%2?s[(n-1)/2]:(s[n/2-1]+s[n/2])/2;}
   function softmax(s,T){var z=s.map(function(x){return x/T;}),m=Math.max.apply(null,z),e=z.map(function(x){return Math.exp(x-m);}),Z=e.reduce(function(a,b){return a+b;},0);return e.map(function(x){return x/Z;});}
   function ent(w){var h=0;for(var i=0;i<w.length;i++)if(w[i]>1e-12)h-=w[i]*Math.log(w[i]);return h;}
-  function cross(s,T,om,centre,P){
+  var ROT=[[1,0],[Math.cos(2*Math.PI/3),Math.sin(2*Math.PI/3)],[Math.cos(4*Math.PI/3),Math.sin(4*Math.PI/3)]];
+  function sectFrom(w,secOf,P){var s=new Array(P).fill(0);for(var i=0;i<w.length;i++)s[secOf[i]]+=w[i];return s;}
+  // ONE engine, BOTH folds. fold1 = single resultant (discards anti-phase). routed = 3 cube-root cardinals (recovers it).
+  function engine(s,T,om,centre){
     var mu=centre==="median"?median(s):centre==="mean"?s.reduce(function(a,b){return a+b;},0)/s.length:0;
     var d=s.map(function(x){return x-mu;});
     var mag=d.map(function(v){return Math.exp(Math.max(-30,Math.min(30,v/T)));});
     var bre=d.map(function(v){var x=om*v;return (1-x*x)/(1+x*x);});
     var bim=d.map(function(v){var x=om*v;return (2*x)/(1+x*x);});
-    var Rre=0,Rim=0;for(var i=0;i<s.length;i++){Rre+=mag[i]*bre[i];Rim+=mag[i]*bim[i];}
-    var w=[],Z=0,pts=[];
-    for(var i=0;i<s.length;i++){var zr=mag[i]*bre[i],zi=mag[i]*bim[i];pts.push([bre[i]*mag[i],bim[i]*mag[i]]);var c=Math.max(zr*Rre+zi*Rim,0);w.push(c);Z+=c;}
-    for(var i=0;i<w.length;i++)w[i]=Z>0?w[i]/Z:1/w.length;
-    var sect=new Array(P).fill(0),secOf=[];
-    for(var i=0;i<s.length;i++){var zr=mag[i]*bre[i],zi=mag[i]*bim[i];
-      var ang=Math.atan2(zi*Rre-zr*Rim, zr*Rre+zi*Rim);
-      var k=Math.floor((((ang*180/Math.PI+180/P)%360)+360)%360/(360/P));if(k<0)k=0;if(k>=P)k=P-1;sect[k]+=w[i];secOf.push(k);}
-    return {w:w,sect:sect,pts:pts,R:[Rre,Rim],mag:mag,secOf:secOf};
+    var Rre=0,Rim=0,pts=[],zr=[],zi=[],i,c;
+    for(i=0;i<s.length;i++){zr.push(mag[i]*bre[i]);zi.push(mag[i]*bim[i]);Rre+=zr[i];Rim+=zi[i];pts.push([zr[i],zi[i]]);}
+    var Rmag=Math.hypot(Rre,Rim)||1,ur=Rre/Rmag,ui=Rim/Rmag;
+    // 1-fold: rectified projection on R; anti-phase (proj<=0) discarded
+    var w1=[],Z1=0,sec1=[];
+    for(i=0;i<s.length;i++){var cc=Math.max(zr[i]*Rre+zi[i]*Rim,0);w1.push(cc);Z1+=cc;}
+    for(i=0;i<s.length;i++){w1[i]=Z1>0?w1[i]/Z1:1/s.length;
+      var ang=Math.atan2(zi[i]*Rre-zr[i]*Rim,zr[i]*Rre+zi[i]*Rim);
+      sec1.push(Math.floor((((ang*180/Math.PI+60)%360)+360)%360/120));}
+    // routed Trinity: three cardinal DIRECTIONS = unit R rotated by {1, w, w^2}
+    var cdirs=ROT.map(function(r){return [ur*r[0]-ui*r[1],ur*r[1]+ui*r[0]];});
+    var w3=s.map(function(){return 0;}),sect=[0,0,0],sec3=[],Z3=0;
+    for(i=0;i<s.length;i++){var best=0,bestv=-1;
+      for(c=0;c<3;c++){var proj=Math.max(zr[i]*cdirs[c][0]+zi[i]*cdirs[c][1],0)*Rmag;w3[i]+=proj;sect[c]+=proj;Z3+=proj;if(proj>bestv){bestv=proj;best=c;}}
+      sec3.push(best);}
+    for(i=0;i<s.length;i++)w3[i]=Z3>0?w3[i]/Z3:1/s.length;
+    for(c=0;c<3;c++)sect[c]=Z3>0?sect[c]/Z3:0;
+    return {pts:pts,mag:mag,R:[Rre,Rim],Rmag:Rmag,cdirs:cdirs,
+      fold1:{w:w1,H:ent(w1),secOf:sec1,sect:sectFrom(w1,sec1,3)},
+      routed:{w:w3,H:ent(w3),secOf:sec3,sect:sect}};
   }
   var SC=["--phos2","--sh1","--sh2","--gold","--pbright","--ice"];
   var css=getComputedStyle(document.documentElement),col=function(n){return css.getPropertyValue(n).trim()||"#fff";};
@@ -125,64 +140,72 @@ try{
   var dpr=Math.min(devicePixelRatio||1,2);
   function fit(cv,cx,h){var w=cv.clientWidth||440;cv.width=w*dpr;cv.height=h*dpr;cx.setTransform(dpr,0,0,dpr,0,0);return [w,h];}
 
-  function drawBars(cur,sm){
+  function drawBars(active,sm){
     var d=fit(bc,bx,240),W=d[0],H=d[1];bx.clearRect(0,0,W,H);
-    var pl=8,pr=8,pt=10,pb=16,n=cur.w.length,bw=(W-pl-pr)/n,mx=Math.max.apply(null,cur.w.concat(sm));
+    var pl=8,pr=8,pt=10,pb=16,n=active.w.length,bw=(W-pl-pr)/n,mx=Math.max.apply(null,active.w.concat(sm));
     for(var i=0;i<n;i++){var x0=pl+i*bw;
       var hs=(sm[i]/mx)*(H-pt-pb);bx.fillStyle="rgba(120,100,150,0.28)";bx.fillRect(x0+bw*0.12,H-pb-hs,bw*0.76,hs);
-      var h=(cur.w[i]/mx)*(H-pt-pb);var sc=cur.secOf[i];bx.fillStyle=col(SC[sc%SC.length]);bx.globalAlpha=sc===0?0.95:0.75;
+      var h=(active.w[i]/mx)*(H-pt-pb);var sc=active.secOf[i];bx.fillStyle=col(SC[sc%SC.length]);bx.globalAlpha=sc===0?0.95:0.78;
       bx.fillRect(x0+bw*0.24,H-pb-h,bw*0.52,h);bx.globalAlpha=1;}
     bx.strokeStyle="rgba(160,64,255,0.15)";bx.beginPath();bx.moveTo(pl,H-pb);bx.lineTo(W-pr,H-pb);bx.stroke();
     bx.fillStyle=col("--faint");bx.font="8px "+col("--mono");bx.textAlign="center";bx.fillText("token index → (drag a bar to change its score)",W/2,H-4);
   }
-  function drawPlane(cur){
-    var d=fit(pc,px,300),W=d[0],H=d[1];px.clearRect(0,0,W,H);var cx=W/2,cy=H/2,Rr=Math.min(W,H)*0.34;
-    var mm=Math.max.apply(null,cur.mag),sc=Rr/(mm||1);
-    // sector wedges
-    var P=S.P;for(var k=0;k<P;k++){var a0=(k/P)*2*Math.PI-Math.PI/P-Math.PI/2,a1=((k+1)/P)*2*Math.PI-Math.PI/P-Math.PI/2;
-      px.beginPath();px.moveTo(cx,cy);px.arc(cx,cy,Rr*1.12,a0,a1);px.closePath();px.fillStyle=k===0?"rgba(34,227,138,0.06)":(k===1?"rgba(224,138,106,0.05)":"rgba(86,200,240,0.045)");px.fill();}
-    // unit circle
+  function drawPlane(E,active){
+    var d=fit(pc,px,300),W=d[0],H=d[1];px.clearRect(0,0,W,H);var cx=W/2,cy=H/2,Rr=Math.min(W,H)*0.34,k;
+    var mm=Math.max.apply(null,E.mag),sc=Rr/(mm||1);
+    var tri=S.mode==="trinity";
+    var baseAng=Math.atan2(-E.R[1],E.R[0]);
+    for(k=0;k<3;k++){var ca=baseAng+k*2*Math.PI/3,a0=ca-Math.PI/3,a1=ca+Math.PI/3;
+      px.beginPath();px.moveTo(cx,cy);px.arc(cx,cy,Rr*1.13,a0,a1);px.closePath();
+      var al=tri?[0.075,0.05,0.045][k]:0.02;
+      px.fillStyle=(k===0?"rgba(34,227,138,":k===1?"rgba(224,138,106,":"rgba(86,200,240,")+al+")";px.fill();}
     px.strokeStyle="rgba(160,64,255,0.35)";px.lineWidth=1;px.beginPath();px.arc(cx,cy,Rr,0,7);px.stroke();
-    px.strokeStyle="rgba(160,64,255,0.12)";px.beginPath();px.moveTo(cx-Rr*1.12,cy);px.lineTo(cx+Rr*1.12,cy);px.moveTo(cx,cy-Rr*1.12);px.lineTo(cx,cy+Rr*1.12);px.stroke();
-    // token points (imag axis flipped so +i is up)
-    for(var i=0;i<cur.pts.length;i++){var sk=cur.secOf[i];var pxp=cx+cur.pts[i][0]*sc,pyp=cy-cur.pts[i][1]*sc;
-      px.fillStyle=col(SC[sk%SC.length]);px.globalAlpha=0.55+0.4*Math.min(1,cur.w[i]*cur.w.length);
-      px.beginPath();px.arc(pxp,pyp,2.4+6*cur.w[i],0,7);px.fill();px.globalAlpha=1;}
-    // resultant R (normalized to fit)
-    var Rmag=Math.hypot(cur.R[0],cur.R[1])||1,rs=Rr/Rmag*Math.min(1,Rmag/(mm*cur.pts.length))*1.0;
-    var Rx=cx+cur.R[0]*rs,Ry=cy-cur.R[1]*rs;
-    px.strokeStyle=col("--gold");px.lineWidth=2;px.beginPath();px.moveTo(cx,cy);px.lineTo(Rx,Ry);px.stroke();
-    px.fillStyle=col("--gold");px.beginPath();px.arc(Rx,Ry,3.5,0,7);px.fill();
-    px.font="9px "+col("--mono");px.textAlign="left";px.fillText("R",Rx+5,Ry);
+    px.strokeStyle="rgba(160,64,255,0.12)";px.beginPath();px.moveTo(cx-Rr*1.13,cy);px.lineTo(cx+Rr*1.13,cy);px.moveTo(cx,cy-Rr*1.13);px.lineTo(cx,cy+Rr*1.13);px.stroke();
+    for(var i=0;i<E.pts.length;i++){var sk=active.secOf[i];var pxp=cx+E.pts[i][0]*sc,pyp=cy-E.pts[i][1]*sc;
+      px.fillStyle=col(SC[sk%SC.length]);px.globalAlpha=0.5+0.45*Math.min(1,active.w[i]*active.w.length);
+      px.beginPath();px.arc(pxp,pyp,2.4+6*active.w[i],0,7);px.fill();px.globalAlpha=1;}
+    var labels=["ω⁰","ω¹","ω²"];
+    if(tri){for(k=0;k<3;k++){var ex=cx+E.cdirs[k][0]*Rr,ey=cy-E.cdirs[k][1]*Rr;
+      px.strokeStyle=k===0?col("--gold"):"rgba(224,192,64,0.4)";px.lineWidth=k===0?2:1.2;
+      px.beginPath();px.moveTo(cx,cy);px.lineTo(ex,ey);px.stroke();
+      px.fillStyle=k===0?col("--gold"):"rgba(224,192,64,0.6)";px.beginPath();px.arc(ex,ey,k===0?3.5:2.5,0,7);px.fill();
+      px.font="9px "+col("--mono");px.textAlign="center";px.fillText(labels[k],ex+8*E.cdirs[k][0],ey-8*E.cdirs[k][1]);}
+    }else{var rs=Rr/E.Rmag*Math.min(1,E.Rmag/(mm*E.pts.length)),Rx=cx+E.R[0]*rs,Ry=cy-E.R[1]*rs;
+      px.strokeStyle=col("--gold");px.lineWidth=2;px.beginPath();px.moveTo(cx,cy);px.lineTo(Rx,Ry);px.stroke();
+      px.fillStyle=col("--gold");px.beginPath();px.arc(Rx,Ry,3.5,0,7);px.fill();
+      px.font="9px "+col("--mono");px.textAlign="left";px.fillText("R",Rx+5,Ry);}
     px.fillStyle="rgba(200,240,255,0.5)";px.beginPath();px.arc(cx,cy,2,0,7);px.fill();
   }
   function render(){
-    var cur=cross(S.scores,S.T,S.om,S.centre,S.P), sm=softmax(S.scores,S.T);
-    drawBars(cur,sm);drawPlane(cur);
-    var H=ent(cur.w),sumW=cur.w.reduce(function(a,b){return a+b;},0);
-    var md=0;for(var i=0;i<cur.w.length;i++)md=Math.max(md,Math.abs(cur.w[i]-sm[i]));
+    var E=engine(S.scores,S.T,S.om,S.centre), sm=softmax(S.scores,S.T);
+    var active=S.mode==="trinity"?E.routed:E.fold1;
+    drawBars(active,sm);drawPlane(E,active);
+    var H=active.H,sumW=active.w.reduce(function(a,b){return a+b;},0),i;
+    var md=0;for(i=0;i<active.w.length;i++)md=Math.max(md,Math.abs(active.w[i]-sm[i]));
     $("k-H").textContent=H.toFixed(3);$("k-eff").textContent=Math.exp(H).toFixed(2)+" / "+S.N;
     $("k-d").textContent=(md*100).toFixed(1)+"%";$("k-sum").textContent=sumW.toFixed(4);
-    var names=["forward &omega;⁰","shadow +","shadow −","ω³","ω⁴","ω⁵"];
-    var html="";for(var k=0;k<S.P;k++){var cls=k===0?"s0":k===1?"s1":"s2";html+='<div class="s '+cls+'"><b>'+(names[k]||("ω"+k))+'</b><div class="v">'+(cur.sect[k]*100).toFixed(0)+'%</div></div>';}
+    var names=["forward ω⁰","shadow ω¹","shadow ω²"];
+    var html="";for(var k=0;k<3;k++){var cls=k===0?"s0":k===1?"s1":"s2";html+='<div class="s '+cls+'"><b>'+names[k]+'</b><div class="v">'+(active.sect[k]*100).toFixed(0)+'%</div></div>';}
     $("sect").innerHTML=html;
-    $("mode").innerHTML = S.om<0.02 ? 'engine mode: <b style="color:var(--faint)">&omega;=0 &rarr; this IS softmax</b> (the phase is off).' :
-      'engine mode: <b style="color:var(--phos2)">Trinity cross</b> &middot; &omega;='+S.om.toFixed(2)+' &middot; the phase concentrates the forward cardinal and casts the two shadows.';
+    var smH=ent(sm);
+    var recovered=E.routed.H>=E.fold1.H+0.003;
+    var cmp='<b>collapse &amp; recovery</b> &nbsp; softmax H='+smH.toFixed(2)+' &nbsp;&rarr;&nbsp; 1-fold H='+E.fold1.H.toFixed(2)+' <span style="color:var(--sh1)">(discards anti-phase)</span> &nbsp;&rarr;&nbsp; routed H='+E.routed.H.toFixed(2)+' <span style="color:var(--phos2)">(shadows recover it'+(recovered?" ✓":"")+')</span>';
+    var head = S.om<0.02 ? 'engine mode: <b style="color:var(--faint)">&omega;=0 &rarr; this IS softmax</b> (phase off).' :
+      'engine mode: <b style="color:'+(S.mode==="trinity"?"var(--phos2)":"var(--sh1)")+'">'+(S.mode==="trinity"?"Trinity &middot; 3 routed cardinals":"1-fold &middot; single resultant")+'</b> &middot; &omega;='+S.om.toFixed(2)+'.';
+    $("mode").innerHTML=head+'<br>'+cmp;
   }
-  $("verdict").innerHTML='<b>what the engine tells you.</b> slide &omega; from 0 and watch the softmax ghost and the live weights <span class="p">separate</span>: the phase-coherence sharpens onto the in-phase bloc (H falls) and pushes the rejected mass into the two shadows. at &omega;=0 they are <b>identical</b> &mdash; the cross contains softmax. the honest reading (from training it native): this buys <b>parity, not a free lunch</b> &mdash; competitive with softmax within ~1.2%, at more compute. the reason to keep it is the <span class="p">shadows</span>: an axis softmax has no room for. this engine is where you find out if that axis is worth carrying.';
+  $("verdict").innerHTML='<b>the evolution, on one screen.</b> flip the <span class="p">kernel &middot; fold</span> toggle. <b>1-fold</b> keeps only the tokens whose phase aligns with the resultant R and <span style="color:var(--sh1)">throws the rest away</span> &mdash; entropy collapses and the two shadows sit empty. <b>Trinity</b> gives the three cube-root cardinals genuinely different jobs: each token routes to the cardinal it aligns with, so the two <span class="p">shadows recover the anti-phase mass 1-fold discarded</span> &mdash; H climbs back toward softmax and the shadows finally carry real, input-dependent mass (try <b>split &plusmn;</b> and <b>gas</b> to fill them). at &omega;=0 both folds are <b>exactly softmax</b>. the honest open question is no longer "does the phase do something" &mdash; it does &mdash; but whether a <i>trained</i> model gains from the routed axis. that experiment is not run yet.';
 
-  // controls
   function seg(id,key,cb){var box=$(id);box.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;
     [].forEach.call(box.children,function(x){x.classList.toggle("on",x===b);});S[key]=b.getAttribute("data-v");if(cb)cb();render();});}
   $("om").addEventListener("input",function(e){S.om=+e.target.value;$("omv").textContent=S.om.toFixed(2);render();});
   $("T").addEventListener("input",function(e){S.T=+e.target.value;$("Tv").textContent=S.T.toFixed(2);render();});
-  $("P").addEventListener("input",function(e){S.P=+e.target.value;$("Pv").textContent=S.P===3?"3 · trinity":S.P;render();});
   $("N").addEventListener("input",function(e){S.N=+e.target.value;$("Nv").textContent=S.N;buildInput();render();});
+  seg("mode-sel","mode",function(){$("modev").textContent=S.mode==="trinity"?"Trinity · routes":"1-fold · rejects";$("modev").style.color=S.mode==="trinity"?"var(--phos2)":"var(--sh1)";});
   seg("centre","centre");seg("pat","pat",buildInput);
-  // drag bars to reshape scores
   var dragging=-1;
   function barAt(clientX){var r=bc.getBoundingClientRect(),x=clientX-r.left,pl=8,pr=8,bw=(r.width-pl-pr)/S.N;return Math.max(0,Math.min(S.N-1,Math.floor((x-pl)/bw)));}
-  function setScore(clientY){if(dragging<0)return;var r=bc.getBoundingClientRect(),y=clientY-r.top;var v=(1-(y-10)/(r.height-26))* 5 - 0.5;S.scores[dragging]=Math.max(-3,Math.min(5,v));render();}
+  function setScore(clientY){if(dragging<0)return;var r=bc.getBoundingClientRect(),y=clientY-r.top;var v=(1-(y-10)/(r.height-26))*5-0.5;S.scores[dragging]=Math.max(-3,Math.min(5,v));render();}
   bc.addEventListener("pointerdown",function(e){dragging=barAt(e.clientX);bc.setPointerCapture(e.pointerId);setScore(e.clientY);});
   bc.addEventListener("pointermove",function(e){if(dragging>=0)setScore(e.clientY);});
   addEventListener("pointerup",function(){dragging=-1;});
