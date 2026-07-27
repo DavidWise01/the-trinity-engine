@@ -1,9 +1,9 @@
 ROOT0-DLW-CHAIN-v1
 index : 1227
 slug  : the-trinity-engine
-seal  : adbe541bc11387bb206ff67e1e663a167c9eedbed3f6fe7858cd8a6c3294833e
-prev  : d4013211c75c1118e8a26eab635872f5a193fcc46463ad69dbf8af4fdbfe395c
-link  : f440ea5186d789b5c603b2a7774f15137358db2ba045fa1c6e8aa3dbd8d0d85a
-head  : f440ea5186d789b5c603b2a7774f15137358db2ba045fa1c6e8aa3dbd8d0d85a
+seal  : a3909ea1f900d6dd4d136a271ef20458eb2b7c9601f5bb440e017c000a738ace
+prev  : db6079c3cfdef77b2aa8c3cd3b45e45c7bbfda5212bae3d2f395044553969e04
+link  : 1361184ad2a6edb986efe1a6c9b20ddc5e290ec6023f324d142fa8bdfc9476b3
+head  : c4d41afeaef76470528856d54d86cf480a0e1c2fc8ebc60fbb9eb8e442585f2b
 
 — the tether: link = sha256(index|slug|seal|prev). the chain head commits to the whole corpus.
